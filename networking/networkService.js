@@ -12,24 +12,20 @@ class NetworkService {
         })
     }
 
-    get = (path,params,cb)=>{
+    get = async (path,params,cb)=>{
       this.service.defaults.params = params
-      this.service.get(path).then(res=>{
-        console.log(res.status, res.data)
-        cb(res.data,null)
-      }).catch(err=>{
-        cb(null,err)
-      })
+      let data
+      try{
+        const res = await this.service.get(path)
+        data = res.data
+        return data
+      }catch(err){
+        throw Error(err)
+      }
     }
 
     post = (path,params,cb)=>{
-      this.service.defaults.data = params
-      this.service.post(path).then(res=>{
-        console.log(res.status, res.data)
-        cb(res.data,null)
-      }).catch(err=>{
-        cb(null,err)
-      })
+      
     }
 }
 
