@@ -6,7 +6,7 @@ const ArticleController = require('../controllers/newsArticleController')
 const categories = require('../utils/appConstants').newsAPIPaths
 
 router.get('/',(req,res,next)=>{
-    const articleController = new ArticleController('news')
+    const articleController = new ArticleController('science')
     articleController.getAllArticles(req,res,next)
 })
 router.get('/news',(req,res,next)=>{

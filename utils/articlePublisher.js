@@ -12,7 +12,7 @@ const articlePublisher = async (category,data)=>{
         newsArticle.content = article.content || 'Not found',
         newsArticle.imageURL = article.urlToImage || 'Not found',
         newsArticle.url = article.url || 'Not found',
-        newsArticle.pubdlishDate = new Date(article.publishedAt),
+        newsArticle.publishDate = new Date(article.publishedAt),
         newsArticle.category = category
         newsArticle.save()
     })

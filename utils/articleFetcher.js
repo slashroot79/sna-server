@@ -36,7 +36,7 @@ class ArticleFetcher {
                 if (attempts === 0){
                     queryTerm = defaultQuery
                 }
-                data = await network.get('/everything',{q:queryTerm,pageSize:1})
+                data = await network.get('/everything',{q:queryTerm,pageSize:10})
                 console.log(`finished fetching articles on attempt ${attempts}...`)
                 this.publishArticles(category,data)
             } catch (err) {}

@@ -14,7 +14,7 @@ class NewsArticleService {
             const articles = await NewsArticle.find({category:cat})
             return articles
         } catch (error) {
-            throw `Error fetching articles for query ${this.query}`
+            throw `Error fetching articles for category ${this.query}`
         }
     }
 }
