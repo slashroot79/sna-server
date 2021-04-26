@@ -9,23 +9,23 @@ const cors = require('cors')
 const scheduler = require('node-schedule')
 const app = express()
 const ArticleFetcher = require('./utils/articleFetcher')
+const retryWrapper = require('./utils/utils').retryWrapper
+const articleRoutes = require('./routes/newsArticleRoutes')
 
 db.start(app)
 
 const PORT = process.env.PORT || 5000
 
-const assetRoot = path.join(__dirname,process.env.ASSETS_ROOT)
-console.log(`Assets root path : ${assetRoot}`)
-app.use(express.static(assetRoot))
 app.use(cors())
 
 app.use(function (err, req, res, next) {
     console.log(err)
     res.status(500).send(err)
 })
+app.use('/articles',articleRoutes)
 
 app.get('/',(req,res)=>{
-    
+    res.send("Hello....go to /articles...!")    
 })
 
 app.on("error",()=>{
@@ -34,10 +34,18 @@ app.on("error",()=>{
 
 app.on("ready",()=>{
     const articleFetcher = new ArticleFetcher()
-    const job = scheduler.scheduleJob('0 */6 * * *',()=>{
-        articleFetcher.fetchArticles()
+    // const job = scheduler.scheduleJob('0 */4 * * *',()=>{
+    //     retryWrapper(articleFetcher.fetchArticles,2).then((res)=>{
+    //         console.log(`${res} Fetched and saved articles successfully. Next fetch 4 hours from now.`)
+    //     }).catch((e)=>{
+    //         console.error(`${e} Error fetching and saving articles.Logs are (location). Will try in 4 hours.`)
+    //     })
+    // })
+    retryWrapper(articleFetcher.fetchArticles,2).then((res)=>{
+        console.log(`** ${res} *** Fetched and saved articles successfully. Next fetch 4 hours from now.`)
+    }).catch((e)=>{
+        console.error(`** ${e} **Error fetching and saving articles.Logs are (location). Will try in 4 hours.`)
     })
-    
     app.listen(PORT,()=>{
         console.log(`*** Started Node server listening on Port ${PORT} ***`)
     })

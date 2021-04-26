@@ -6,7 +6,7 @@ const network = new Network(process.env.NEWS_API_KEY, process.env.BASE_API_URL)
 
 class ArticleFetcher {
     constructor(retries){
-        this.retries = retries === 0 ? 1 : retries
+        this.retries = retries
         console.log("fetching articles...")
     }
 
@@ -30,18 +30,17 @@ class ArticleFetcher {
         const category = query.cat
         const defaultQuery = query.defaultQuery
         let data, attempts
-        const r = !isNaN(Number(this.retries)) ? Number(this.retries) : 3
+        const r = !isNaN(Number(this.retries)) ? Number(this.retries) : 2
         for (attempts = r;attempts>=0;attempts--){
             try {
-                if (attempts === 1){
+                if (attempts === 0){
                     queryTerm = defaultQuery
                 }
                 data = await network.get('/everything',{q:queryTerm,pageSize:1})
                 console.log(`finished fetching articles on attempt ${attempts}...`)
-                // this.publishArticles(category,data)
-                break
+                this.publishArticles(category,data)
             } catch (err) {}
-            console.log(`Error on all retry attempts : ${attempts} for query ${query.queryTerm}`)
+            console.log(`Error on all retry attempts : ${r} for query ${query.queryTerm}`)
         }
 
     }

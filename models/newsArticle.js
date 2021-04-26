@@ -17,7 +17,7 @@ const newsArticleSchema = new Schema(
         content:{type:String, requried:true},
         imageURL:{type:String, requried:true},
         url:{type:String, requried:true},
-        publishDate:{type:Date, required:true},
+        publishDate:{type:Date},
         category:{type:String, requried:true, enum:["news","health", "tech","science","entertainment","sports","business"]}
     }, 
         mongooseSchemaConfig
