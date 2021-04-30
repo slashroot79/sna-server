@@ -29,7 +29,7 @@ app.get('/',(req,res)=>{
 })
 
 app.on("error",()=>{
-    throw new Error("500 Internal Server Error. Please try again later.")
+    console.log("***** E R R O R *****")
 })
 
 app.on("ready",()=>{
