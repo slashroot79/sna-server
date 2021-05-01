@@ -5,7 +5,6 @@ const newsArticle = new NewsArticle()
 class NewsArticleService {
     constructor(query){
         this.query = query
-        console.log("article controller loaded...")
     }
 
     getAllArticles = async ()=>{

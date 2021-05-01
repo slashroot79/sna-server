@@ -7,7 +7,6 @@ const network = new Network(process.env.NEWS_API_KEY, process.env.BASE_API_URL)
 class ArticleFetcher {
     constructor(retries){
         this.retries = retries
-        console.log("Article fetcher...fetching articles...")
     }
 
     fetchArticles = async ()=>{
@@ -44,11 +43,9 @@ class ArticleFetcher {
                     queryTerm = defaultQuery
                 }
                 data = await network.get('/everything',{q:queryTerm,pageSize:10})
-                console.log(`finished fetching articles on attempt ${attempts}...`)
                 success = true
                 this.publishArticles(category,data)
             } catch (err) {
-                console.log(`Error on all retry attempts : ${r} for query ${query.queryTerm}`)
             }
         }
 

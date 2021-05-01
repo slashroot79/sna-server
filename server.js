@@ -22,11 +22,8 @@ app.use(function (err, req, res, next) {
     console.log(err)
     res.status(500).send(err)
 })
-app.use('/articles',articleRoutes)
 
-app.get('/',(req,res)=>{
-    res.send("Hello....go to /articles...!")    
-})
+app.use('/articles',articleRoutes)
 
 app.on("error",()=>{
     console.log("***** E R R O R *****")
